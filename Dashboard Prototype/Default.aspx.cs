@@ -117,6 +117,26 @@ namespace Dashboard_Prototype
                                 ";
             return strSQL;
         }
+
+        public static string GetSQL4DvChart2()
+        {
+            string strSQL = @"select 
+					isnull(YEAR(B.Date_of_Birth), 0) as Year
+					, Replace(isnull(O.Gender, 'Not_Specified')
+					, 'Please Select Gender', 'Not_Specified') as Gender
+					, P.Designation
+					, Count(*) as Headcount
+					from WFMP.tblMaster A 
+					left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
+					left join WFMP.tblGender O on O.Id = B.Gender
+					left join WFMP.tblDesignation P on P.ID = A.DesignationID
+					group by 
+					YEAR(B.Date_of_Birth)
+					,Replace(isnull(O.Gender, 'Not_Specified')
+					, 'Please Select Gender', 'Not_Specified')
+					, P.Designation";
+            return strSQL;
+        }
     }
 
 
