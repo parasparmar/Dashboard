@@ -28,13 +28,13 @@
 </head>
 <body>
     <form id="form1" runat="server">        
-        <h6>Sitel CWFM Umang as well as the Malad location operates under a non-discriminatory & diversity friendly employment policy. All data seen below is primarily for a dashboard prototype that is under active development.</h6>
-        <hr />
+        <h2>Sitel CWFM Umang as well as the Malad location operates under a non-discriminatory & diversity friendly employment policy. All data seen below is primarily for a dashboard prototype that is under active development.</h2>
+        
 
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
-                    <div class="box-header with-border">
+                    <div class="box-header">
                         Age Groups vs Gender
                     </div>
                     <div class="box-body">
