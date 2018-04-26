@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="3-synchronized-charts.html" />
     <Content Include="Sitel\bootstrap\css\bootstrap-grid.css.map" />
     <Content Include="Sitel\bootstrap\css\bootstrap-grid.min.css.map" />
     <Content Include="Sitel\bootstrap\css\bootstrap-reboot.css.map" />
@@ -79,6 +80,7 @@
     <Content Include="Sitel\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Sitel\css\AdminLTE.min.css" />
     <Content Include="Sitel\js\adminlte.min.js" />
+    <Content Include="Sitel\js\Charts\dvchart2.js" />
     <Content Include="Sitel\js\ndx.csv" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -107,14 +109,15 @@
     <Content Include="Sitel\js\crossfilter.js" />
     <Content Include="Sitel\js\d3.js" />
     <Content Include="Sitel\js\dc.js" />
-    <Content Include="Sitel\js\dvchart1-backup.js" />
-    <Content Include="Sitel\js\dvchart1.js" />
+    <Content Include="Sitel\js\Charts\dvchart1-backup.js" />
+    <Content Include="Sitel\js\Charts\dvchart1.js" />
     <Content Include="Sitel\js\myCrossFilterImplementation.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\PageExtensionMethods.cs" />
     <Content Include="App_Code\Pivot.cs" />
+    <Compile Include="App_Code\DvChart1.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
