@@ -33,10 +33,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-header">
-                        Age Groups vs Gender
-                    </div>
+                <div class="box box-primary box-solid">
+                    <div class="box-header">Age Groups vs Gender</div>
                     <div class="box-body">
                         <h4 class="box-title"></h4>
                         <p class="box-text">
@@ -48,10 +46,8 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        Gender vs Designations
-                    </div>
+                <div class="box box-primary box-solid">
+                    <div class="box-header with-border">Gender vs Designations</div>
                     <div class="box-body">
                         <h4 class="box-title"></h4>
                         <p class="box-text">
@@ -64,10 +60,8 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        Designations vs Departments                      
-                    </div>
+                <div class="box box-primary box-solid">
+                    <div class="box-header with-border">Designations vs Departments</div>
                     <div class="box-body">
                         <h4 class="box-title"></h4>
                         <p class="box-text">
@@ -78,9 +72,8 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">                                           
-                    </div>
+                <div class="box box-primary box-solid">
+                    <div class="box-header with-border"></div>
                     <div class="box-body">
                         <h4 class="box-title"></h4>
                         <p class="box-text">
