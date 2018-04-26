@@ -35,7 +35,8 @@
     chart: {
             type:'area',
             renderTo: 'dvChart1',
-            height: '100%'
+            height: 400,
+            zoomType: 'x'
         }
     , title: {
             text: 'Year vs Gender'
@@ -57,12 +58,13 @@
         dataLabels: {format: '{point.name}'},
         }]
            
-    , xAxis: {
+                , xAxis: {
+    title:'Year of Birth',
     allowDecimals: false,
     categories: yearofbirth,
     labels: {
       formatter: function () {
-        return this.value; // clean, unformatted number for year
+          return this.value; // clean, unformatted number for year
       }
     }
   }
@@ -77,7 +79,7 @@
         }
       }
     , tooltip: {
-        pointFormat: '{point.y:,.0f} {series.name} employees'
+        pointFormat: '{point.y:,.0f} {series.name} employees.'
       }
     , plotOptions: {
     area: {      

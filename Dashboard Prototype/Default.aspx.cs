@@ -57,7 +57,6 @@ namespace Dashboard_Prototype
                 }
             }
         }
-
         public string getStrSQL()
         {
             string strSQL = @" select A.Employee_ID, dbo.getFullName(A.Employee_ID) as Name, C.Designation as DesignationID, A.LevelID as LevelIDnumber

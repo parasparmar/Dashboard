@@ -77,7 +77,8 @@
     <Content Include="Sitel\bootstrap\js\bootstrap.bundle.min.js.map" />
     <Content Include="Sitel\bootstrap\js\bootstrap.js.map" />
     <Content Include="Sitel\bootstrap\js\bootstrap.min.js.map" />
-    <Content Include="Sitel\js\cars.csv" />
+    <Content Include="Sitel\css\AdminLTE.min.css" />
+    <Content Include="Sitel\js\adminlte.min.js" />
     <Content Include="Sitel\js\ndx.csv" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
