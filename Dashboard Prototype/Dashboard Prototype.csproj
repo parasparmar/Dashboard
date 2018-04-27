@@ -81,6 +81,8 @@
     <Content Include="Sitel\css\AdminLTE.min.css" />
     <Content Include="Sitel\js\adminlte.min.js" />
     <Content Include="Sitel\js\Charts\dvchart2.js" />
+    <Content Include="Sitel\js\Charts\dvchart3.js" />
+    <Content Include="Sitel\js\Charts\dvchart4.js" />
     <Content Include="Sitel\js\ndx.csv" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
