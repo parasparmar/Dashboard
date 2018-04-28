@@ -13,8 +13,6 @@ namespace Dashboard_Prototype
         {
 
         }
-
-
         [WebMethod]
         public static List<DvChart1> GetDvChart1Data()
         {
@@ -43,9 +41,7 @@ namespace Dashboard_Prototype
                                 Not_Specified = Convert.ToInt32(drow["Not_Specified"].ToString()),
                               
                             });
-                        }
-                            
-                                
+                        }       
                     }
                     con.Close();
                     return chartData;
@@ -117,26 +113,90 @@ namespace Dashboard_Prototype
                                 ";
             return strSQL;
         }
-
         public static string GetSQL4DvChart2()
         {
             string strSQL = @"select 
-					isnull(YEAR(B.Date_of_Birth), 0) as Year
-					, Replace(isnull(O.Gender, 'Not_Specified')
-					, 'Please Select Gender', 'Not_Specified') as Gender
-					, P.Designation
-					, Count(*) as Headcount
-					from WFMP.tblMaster A 
-					left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
-					left join WFMP.tblGender O on O.Id = B.Gender
-					left join WFMP.tblDesignation P on P.ID = A.DesignationID
-					group by 
-					YEAR(B.Date_of_Birth)
-					,Replace(isnull(O.Gender, 'Not_Specified')
-					, 'Please Select Gender', 'Not_Specified')
-					, P.Designation";
+                            Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified') as Gender
+                            , P.Designation , Count(*) as Headcount
+                            from WFMP.tblMaster A 
+                            left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
+                            left join WFMP.tblGender O on O.Id = B.Gender
+                            left join WFMP.tblDesignation P on P.ID = A.DesignationID
+                            group by 
+                            Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified'), P.Designation
+                            Order by 1";
             return strSQL;
         }
+        public static string GetOverAllSQL()
+        {
+            string strSQL = @"select 
+                        isnull(YEAR(B.Date_of_Birth), 0) as YearOfBirth
+                        , Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified') as Gender
+                        , case when C.Designation in ('Site Director','Officer','Sr. Officer') then 'Administration'
+                        when C.Designation in ('Mgr I Workforce Mgmt','Mgr II Workforce Mgmt','Sr Mgr Workforce Mgmt') then 'Management'
+                        when C.Designation in ('Analyst','Real-Time Analyst','Sr. Analyst') then 'GCC'
+                        when C.Designation in ('WF Planner') then 'Planning'
+                        when C.Designation in ('Scheduler', 'Primary Scheduler', 'Secondary Scheduler') then 'Scheduling'
+                        when C.Designation in ('Sr. Software Developer') then 'Analytics' 
+                        when C.Designation is Null then 'Not_Specified'
+                        end as Department
+                        , case when C.Designation in ('Site Director','Officer','Sr. Officer') then 'Director'
+                        when C.Designation in ('Officer','Sr. Officer') then 'Officer'
+                        when C.Designation in ('Mgr I Workforce Mgmt','Mgr II Workforce Mgmt','Sr Mgr Workforce Mgmt') then 'Manager'
+                        when C.Designation in ('Analyst','Real-Time Analyst','Sr. Analyst') then 'Analyst'
+                        when C.Designation in ('WF Planner') then 'Planner'
+                        when C.Designation in ('Scheduler', 'Primary Scheduler', 'Secondary Scheduler') then 'Scheduler'
+                        when C.Designation in ('Sr. Software Developer') then 'Developer' 
+                        when C.Designation is Null then 'Not_Specified'
+                        end as Role
+                        , isnull(D.Level,'Not_Specified') as Level
+                        , Count(*) as HeadCount
+                        from WFMP.tblMaster A 
+                        left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
+                        left join WFMP.tblDesignation C on C.ID = A.DesignationID
+                        left join WFMP.tblLevel D on D.LevelID = A.LevelID
+                        left join WFMP.tblEmpStatus E on E.Id = A.EmpStatus
+	
+                        left join WFMP.tblDepartmentLinkMst TDLM on TDLM.[TransID] = A.[DeptLinkId] AND TDLM.Active=1
+                        Left Join WFMP.tblDepartment TD on TD.[TransID] = TDLM.[DepartmentID] AND TDLM.Active=1
+                        left join WFMP.tblFunction L on L.TransID = TDLM.[FunctionID] AND TDLM.Active=1
+                        left join WFMP.tblLOB M on M.TransID = TDLM.[LOBID] AND TDLM.Active=1
+                        left join WFMP.tblSkillSet F on F.TransID = TDLM.[SkillSetID] AND TDLM.Active=1
+                        left join WFMP.tblSubSkillSet G on G.TransID = TDLM.[SubSkillSetID] AND TDLM.Active=1
+	
+                        left join WFMP.tblTrainingStatus H on H.TransID = A.TrngStatus
+                        left join WFMP.tblJob_Type I on I.Id = A.Job_Type
+                        left join WFMP.tblCountry J on J.TransID = A.CountryID
+                        left join WFMP.tblSite K on K.TransID = A.SiteID
+                        left join WFMP.tblMaster N on A.RepMgrCode=N.Employee_ID
+                        left join WFMP.tblGender O on O.Id = B.Gender
+                        left join WFMP.tblMaritalStatus P on P.Id = B.MaritalStatus
+                        left join WFMP.tblQualification Q on Q.Id = B.Qualification
+                        group by 
+                        isnull(YEAR(B.Date_of_Birth), 0)
+                        , isnull(O.Gender, 'Not_Specified')
+                        , case when C.Designation in ('Site Director','Officer','Sr. Officer') then 'Administration'
+                        when C.Designation in ('Mgr I Workforce Mgmt','Mgr II Workforce Mgmt','Sr Mgr Workforce Mgmt') then 'Management'
+                        when C.Designation in ('Analyst','Real-Time Analyst','Sr. Analyst') then 'GCC'
+                        when C.Designation in ('WF Planner') then 'Planning'
+                        when C.Designation in ('Scheduler', 'Primary Scheduler', 'Secondary Scheduler') then 'Scheduling'
+                        when C.Designation in ('Sr. Software Developer') then 'Analytics' 
+                        when C.Designation is Null then 'Not_Specified'
+                        end 
+                        , case when C.Designation in ('Site Director','Officer','Sr. Officer') then 'Director'
+                        when C.Designation in ('Officer','Sr. Officer') then 'Officer'
+                        when C.Designation in ('Mgr I Workforce Mgmt','Mgr II Workforce Mgmt','Sr Mgr Workforce Mgmt') then 'Manager'
+                        when C.Designation in ('Analyst','Real-Time Analyst','Sr. Analyst') then 'Analyst'
+                        when C.Designation in ('WF Planner') then 'Planner'
+                        when C.Designation in ('Scheduler', 'Primary Scheduler', 'Secondary Scheduler') then 'Scheduler'
+                        when C.Designation in ('Sr. Software Developer') then 'Developer' 
+                        when C.Designation is Null then 'Not_Specified'
+                        end
+                        , isnull(D.Level,'Not_Specified')
+                        order by 1,2,3,4,5";
+            return strSQL;
+        }
+
     }
 
 

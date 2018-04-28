@@ -4,11 +4,9 @@ Highcharts.chart('dvChart4', {
         type: 'column'
     },
     title: {
-        text: 'Monthly Average Rainfall'
+        text: ''
     },
-    subtitle: {
-        text: 'Source: WorldClimate.com'
-    },
+    
     xAxis: {
         categories: [
             'Jan',

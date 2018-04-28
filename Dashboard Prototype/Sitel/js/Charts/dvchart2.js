@@ -5,38 +5,56 @@ Highcharts.chart('dvChart2', {
         events: {
             drilldown: function (e) {
                 if (!e.seriesOptions) {
-
                     var chart = this,
                         drilldowns = {
-                            'Animals': {
-                                name: 'Animals',
+                            'Female': {
+                                name: 'Female',
                                 data: [
-                                    ['Cows', 2],
-                                    ['Sheep', 3]
+                                    ['Analyst', 1],
+                                    ['Primary Scheduler', 9],
+                                    ['Real- Time Analyst', 13],
+                                    ['Secondary Scheduler', 1],
+                                    ['WF Planner', 1]
                                 ]
                             },
-                            'Fruits': {
-                                name: 'Fruits',
+                            'Male': {
+                                name: 'Male',
                                 data: [
-                                    ['Apples', 5],
-                                    ['Oranges', 7],
-                                    ['Bananas', 2]
+                                    ['Analyst', 6],
+                                    ['Mgr I Workforce Mgmt', 16],
+                                    ['Mgr II Workforce Mgmt', 7],
+                                    ['Officer', 1],
+                                    ['Primary Scheduler', 15],
+                                    ['Real-Time Analyst', 62],
+                                    ['Secondary Scheduler', 13],
+                                    ['Sr Mgr Workforce Mgmt', 1],
+                                    ['Sr. Analyst', 5],
+                                    ['Sr. Officer', 1],
+                                    ['Sr. Software Developer', 2],
+                                    ['WF Planner', 21],
                                 ]
                             },
-                            'Cars': {
-                                name: 'Cars',
+                            'Not_Specified': {
+                                name: 'Not_Specified',
                                 data: [
-                                    ['Toyota', 1],
-                                    ['Volkswagen', 2],
-                                    ['Opel', 5]
+                                    ['Not_Specified', 5],
+                                    ['Analyst', 10],
+                                    ['Mgr I Workforce Mgmt', 3],
+                                    ['Mgr II Workforce Mgmt', 1],
+                                    ['Primary Scheduler', 2],
+                                    ['Real-Time Analyst', 22],
+                                    ['Secondary Scheduler', 8],
+                                    ['Site Director', 1],
+                                    ['Sr Mgr Workforce Mgmt', 1],
+                                    ['Sr. Analyst', 1],
+                                    ['Sr. Software Developer', 12],
+                                    ['WF Planner', 13]
                                 ]
                             }
                         },
                         series = drilldowns[e.point.name];
-
                     // Show the loading label
-                    chart.showLoading('Simulating Ajax ...');
-
+                    chart.showLoading('Calling Home...');
                     setTimeout(function () {
                         chart.hideLoading();
                         chart.addSeriesAsDrilldown(e.point, series);
@@ -47,7 +65,7 @@ Highcharts.chart('dvChart2', {
         }
     },
     title: {
-        text: 'Async drilldown'
+        text: ''
     },
     xAxis: {
         type: 'category'
@@ -67,19 +85,19 @@ Highcharts.chart('dvChart2', {
     },
 
     series: [{
-        name: 'Things',
+        name: 'Headcount',
         colorByPoint: true,
         data: [{
-            name: 'Animals',
-            y: 5,
+            name: 'Female',
+            y: 25,
             drilldown: true
         }, {
-            name: 'Fruits',
-            y: 2,
+            name: 'Male',
+            y: 150,
             drilldown: true
         }, {
-            name: 'Cars',
-            y: 4,
+            name: 'Not_Specified',
+            y: 79,
             drilldown: true
         }]
     }],
