@@ -126,6 +126,7 @@
                     return d.month;
                 });
 
+                // Dimension by Site
                 var OppBySite = ndx.dimension(function (d) {
                     return d.site;
                 });
@@ -137,7 +138,7 @@
                 var OppByAcc = ndx.dimension(function (d) {
                     return d.account;
                 });
-
+                // Dimension by Account
                 var OppByAccgroup = OppByAcc.group().reduceSum(
                    function (d) { return d.opportunity; }
                    );

@@ -83,7 +83,10 @@
     <Content Include="Sitel\js\Charts\dvchart2.js" />
     <Content Include="Sitel\js\Charts\dvchart3.js" />
     <Content Include="Sitel\js\Charts\dvchart4.js" />
-    <Content Include="Sitel\js\ndx.csv" />
+    <Content Include="Sitel\js\highcharts\highcharts.js" />
+    <Content Include="Sitel\js\highcharts\modules\data.js" />
+    <Content Include="Sitel\js\highcharts\modules\drilldown.js" />
+    <Content Include="Sitel\js\data.csv" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -119,6 +122,7 @@
   <ItemGroup>
     <Content Include="App_Code\PageExtensionMethods.cs" />
     <Content Include="App_Code\Pivot.cs" />
+    <Compile Include="App_Code\DataDB.cs" />
     <Compile Include="App_Code\DvChart1.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

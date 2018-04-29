@@ -1,0 +1,41 @@
+﻿YearOfBirth,Gender,Department,Role,Level,Headcount
+0,Female,Scheduling,Scheduler,Senior Executive,2
+0,Male,GCC,Analyst,Senior Executive,1
+0,Male,Management,Manager,Assistant Manager,1
+0,Male,Management,Manager,Manager,2
+0,Male,Management,Manager,Senior Manager,1
+0,Not_Specified,Administration,Director,Director,1
+0,Not_Specified,Analytics,Developer,Executive,2
+0,Not_Specified,Analytics,Developer,Manager,2
+0,Not_Specified,Analytics,Developer,Not_Specified,6
+0,Not_Specified,Analytics,Developer,Senior Executive,2
+0,Not_Specified,GCC,Analyst,Executive,112
+0,Not_Specified,GCC,Analyst,Senior Executive,2
+0,Not_Specified,Management,Manager,Assistant Manager,13
+0,Not_Specified,Management,Manager,Manager,5
+0,Not_Specified,Management,Manager,Senior Executive,1
+0,Not_Specified,Management,Manager,Senior Manager,1
+0,Not_Specified,Not_Specified,Not_Specified,Not_Specified,5
+0,Not_Specified,Planning,Planner,Executive,4
+0,Not_Specified,Planning,Planner,Senior Executive,27
+0,Not_Specified,Planning,Planner,Senior Executive,1
+0,Not_Specified,Scheduling,Scheduler,Executive,22
+0,Not_Specified,Scheduling,Scheduler,Senior Executive,22
+1973,Male,Planning,Planner,Senior Executive,1
+1975,Male,Administration,Director,Senior Executive,1
+1975,Male,Analytics,Developer,Director,1
+1978,Male,GCC,Analyst,Senior Executive,1
+1979,Male,GCC,Analyst,Senior Executive,1
+1980,Male,Administration,Director,Senior Executive,1
+1980,Male,Management,Manager,Manager,1
+1982,Male,GCC,Analyst,Senior Executive,1
+1982,Male,Management,Manager,Assistant Manager,2
+1984,Male,Planning,Planner,Senior Executive,1
+1986,Male,Management,Manager,Assistant Manager,1
+1987,Female,Scheduling,Scheduler,Senior Executive,1
+1987,Male,GCC,Analyst,Executive,1
+1988,Male,Management,Manager,Assistant Manager,1
+1990,Female,Scheduling,Scheduler,Senior Executive,1
+1992,Female,GCC,Analyst,Executive,1
+1992,Male,Analytics,Developer,Senior Executive,1
+2017,Not_Specified,Planning,Planner,Senior Executive,1

@@ -48,6 +48,44 @@ namespace Dashboard_Prototype
                 }
             }
         }
+
+        [WebMethod]
+        public static List<DataDB> GetChartData()
+        {
+            string strSQL = GetOverAllSQL();
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(strSQL))
+                {
+                    cmd.Connection = con;
+                    List<DataDB> chartData = new List<DataDB>();
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        dt.Load(sdr);
+
+                        foreach (DataRow drow in dt.Rows)
+                        {
+                            chartData.Add(new DataDB
+                            {
+                                YearOfBirth = drow["YearOfBirth"].ToString(),
+                                Gender = drow["Gender"].ToString(),
+                                Department = drow["Department"].ToString(),
+                                Role = drow["Role"].ToString(),
+                                Level = drow["Level"].ToString(),
+                                HeadCount =Convert.ToInt32(drow["HeadCount"].ToString())
+                            });
+                        }
+                    }
+                    con.Close();
+                    return chartData;
+                }
+            }
+        }
+
         public string getStrSQL()
         {
             string strSQL = @" select A.Employee_ID, dbo.getFullName(A.Employee_ID) as Name, C.Designation as DesignationID, A.LevelID as LevelIDnumber

@@ -91,7 +91,7 @@
                         <div class="jumbotron">
                             <h1 class="display-3">Hello,</h1>
                             <p class="lead">Sitel CWFM Umang operates under a non-discriminatory & diversity friendly employment policy.</p>
-                            <hr class="my-4">
+                            <hr class="my-4"/>
                             <p>Any data seen below is aggregated with due respect to anonymity and non-discrimination in accordance with Sitel Policy.</p>
                             <p>Data seen below is only meant to illustrate a dashboard prototype that is currently under development.</p>
                         </div>
@@ -104,15 +104,20 @@
         </div>
 
 
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/sunburst.js"></script>
-        <script src="https://code.highcharts.com/modules/exporting.js"></script>
-        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
-        <script src="https://code.highcharts.com/modules/export-data.js"></script>
-        <script src="Sitel/js/Charts/dvchart1.js"></script>
+        <%--<script src="https://code.highcharts.com/highcharts.js"></script>--%>
+        <script src="Sitel/js/highcharts/highcharts.js"></script>
+       <%-- <script src="https://code.highcharts.com/modules/sunburst.js"></script>--%>
+        <%--<script src="https://code.highcharts.com/modules/exporting.js"></script>--%>
+        <%--<script src="https://code.highcharts.com/modules/drilldown.js"></script>--%>
+        <%--<script src="Sitel/js/highcharts/modules/data.js"></script>--%>
+       <%-- <script src="Sitel/js/highcharts/modules/drilldown.js"></script>--%>
+   <%--<script src="https://code.highcharts.com/modules/export-data.js"></script>--%>
+        <%--<script src="Sitel/js/Charts/dvchart1.js"></script>--%>
+        <script src="Sitel/js/crossfilter.js"></script>
+        
         <script src="Sitel/js/Charts/dvchart2.js"></script>
-        <script src="Sitel/js/Charts/dvchart3.js"></script>
-        <script src="Sitel/js/Charts/dvchart4.js"></script>
+<%--        <script src="Sitel/js/Charts/dvchart3.js"></script>
+        <script src="Sitel/js/Charts/dvchart4.js"></script>--%>
 
     </form>
     <script>
