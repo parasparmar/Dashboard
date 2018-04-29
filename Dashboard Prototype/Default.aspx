@@ -116,8 +116,8 @@
         <script src="Sitel/js/crossfilter.js"></script>
         
         <script src="Sitel/js/Charts/dvchart2.js"></script>
-<%--        <script src="Sitel/js/Charts/dvchart3.js"></script>
-        <script src="Sitel/js/Charts/dvchart4.js"></script>--%>
+        <script src="Sitel/js/Charts/dvchart3.js"></script>
+        <%--<script src="Sitel/js/Charts/dvchart4.js"></script>--%>
 
     </form>
     <script>

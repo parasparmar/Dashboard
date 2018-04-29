@@ -1,10 +1,9 @@
-﻿
-
-
-$(function () {
+﻿function buildCharts() {
     $.ajax({
         type: "POST",
+        //type: "GET",
         url: "Default.aspx/GetChartData",
+        //url: "Sitel/js/data.csv",
         data: '{}',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -17,36 +16,34 @@ $(function () {
         }
     });
 
-
-
-
     function OnSuccessDrawDvChart2(response) {
-
-        //YearOfBirth,
-        //Gender,
-        //Department,
-        //Role,
-        //Level,
-        //HeadCount
-
 
         var data = crossfilter(response.d);
         var all = data.groupAll();
-        //var yobDimension = data.dimension(function (d) { return d.YearOfBirth; })
+        var yobDimension = data.dimension(function (d) { return d.YearOfBirth; })
         var genderDimension = data.dimension(function (d) { return d.Gender; });
         //var roleDimension = data.dimension(function (d) { return d.role; });
 
         //var departmentDimension = data.dimension(function (d) { return d.Department; });
         //var levelDimension = data.dimension(function (d) { return d.Level; });
-
-        var genderGroup = genderDimension.group();
+        
+        var genderGroup = genderDimension.group().reduceSum(function (d) { return d.HeadCount; });
         var genders = genderGroup.all();
+        var yobGroup = yobDimension.group().reduceSum(function (d) {
+                for (g in genders) {
+                    if (d.Gender == genders[g].key) {
+                        return d.HeadCount;
+                    }
+                }
+            });
+        var years = yobGroup.all();
+        
         var genderLabel = [];
         var genderCount = [];
 
         for (var g in genders) {
             genderLabel.push(genders[g].key);
-            genderCount.push(genders[g].value);            
+            genderCount.push(genders[g].value);
         }
 
 
@@ -69,9 +66,26 @@ $(function () {
                 }]
                 , xAxis: {
                     title: 'Gender',
-                    allowDecimals: false,
-                    categories: genderLabel
-                }            
+                    allowDecimals: false,                    
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec'
+                    ],
+                }
+                   
+                    
+                    
+                
                 , yAxis: {
                     title: {
                         text: 'Headcount'
@@ -105,7 +119,11 @@ $(function () {
 
 
 
+}
 
+
+$(function () {
+    buildCharts();
 });
 
 

@@ -95,26 +95,26 @@
                 // Maintain running tallies by region as filters are applied or removed
                 var groupByRegions = regions.group().reduce(
                         /* callback for when data is added to the current filter results */
-                                function (p, v) {
-                                    ++p.count;
-                                    p.opportunity += +v.opportunity / 10000;
-                                    p.opportunity_percentage += Math.abs(v.opportunity_per) * 100;
-                                    p.headcount += +v.headcount;
-                                    return p;
-                                },
-                                /* callback for when data is removed from the current filter results */
-                                        function (p, v) {
-                                            --p.count;
-                                            p.opportunity -= +v.opportunity / 10000;
-                                            p.opportunity_percentage -= Math.abs(v.opportunity_per) * 100;
-                                            p.headcount -= +v.headcount;
-                                            return p;
-                                        },
-                                        /* initialize p */
-                                                function () {
-                                                    return { opportunity: 0, opportunity_percentage: 0, headcount: 0 }
-                                                }
-                                        );
+                        function (p, v) {
+                            ++p.count;
+                            p.opportunity += +v.opportunity / 10000;
+                            p.opportunity_percentage += Math.abs(v.opportunity_per) * 100;
+                            p.headcount += +v.headcount;
+                            return p;
+                        },
+                        /* callback for when data is removed from the current filter results */
+                        function (p, v) {
+                            --p.count;
+                            p.opportunity -= +v.opportunity / 10000;
+                            p.opportunity_percentage -= Math.abs(v.opportunity_per) * 100;
+                            p.headcount -= +v.headcount;
+                            return p;
+                        },
+                        /* initialize p */
+                        function () {
+                            return { opportunity: 0, opportunity_percentage: 0, headcount: 0 }
+                        }
+                        );
 
                 // Dimension by full date
                 var dateDimension = ndx.dimension(function (d) {
