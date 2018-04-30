@@ -1,109 +1,106 @@
-﻿    $(function (){
-        $.ajax({
-            type: "POST",
-            url: "Default.aspx/GetDvChart1Data",
-            data: '{}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: OnSuccessDrawDvChart1,
-            failure: function (response) {
-                alert(response.d);
-            },
-            error: function (response) {
-                alert(response.d);
-            }            
-        });
-
-        $(function () { $("#myModal").modal("show"); });
-
-        function OnSuccessDrawDvChart1(response){
-        var data = response.d;
-        var male=[];
-        var female=[];
-        var not_specified=[];
-        var headcount=[];
-        var yearofbirth = [];
-        for(var d in data){            
-            male.push(data[d].Male);
-            female.push(data[d].Female);
-            not_specified.push(data[d].Not_Specified);
-            yearofbirth.push(data[d].YearOfBirth);            
-        }
-        createHighCharts();
-    
-        function createHighCharts(){
-            var chart = new Highcharts.Chart({
-    chart: {
-            type:'area',
-            renderTo: 'dvChart1',
-            height: 400,
-            zoomType: 'x'
-        }
-    , title: {
-            text: ''
-        }        
-    , series: [{
-        type: "area",
-        name: 'Male',
-        data: male,
-        dataLabels: { format: '{point.name}'}
-        }, {
-        type: "area",
-        name: 'Female',
-        data: female,
-        dataLabels: {format: '{point.name}'},
-        }, {
-        type: "area",
-        name: 'Not_Specified',
-        data: not_specified,
-        dataLabels: {format: '{point.name}'},
-        }]
-           
-        , xAxis: {
-        title:'Year of Birth',
-        allowDecimals: false,
-        categories: yearofbirth,
-        labels: {
-        formatter: function () {
-          return this.value; // clean, unformatted number for year
-            }
-        }
-    }
-    , yAxis: {
-        title: {
-          text: 'Headcount'
+﻿$(function () {
+    /// Stage 1 : get data from the server.
+    $.ajax({
+        type: "POST",
+        //type: "GET",
+        url: "Default.aspx/GetChartData",
+        //url: "Sitel/js/data.csv",
+        data: '{chartNum:1}',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: OnSuccessDrawChart,
+        failure: function (response) {
+            alert("failure : " + response.status);
         },
-        labels: {
-          formatter: function () {
-            return this.value;
-          }
+        error: function (response) {
+            alert("error : " + response.status);
         }
-      }
-    , tooltip: {
-        pointFormat: '{point.y:,.0f} {series.name} employees.'
-      }
-    , plotOptions: {
-    area: {      
-      marker: {
-        enabled: false,
-        symbol: 'circle',
-        radius: 2,
-        states: {
-          hover: {
-            enabled: true
-          }
-        }
-      }
-    }
-  }
     });
+    /// Stage 2 : on successfull server response vegin drawing the chart.
+    function OnSuccessDrawChart(response) {
+        var data = crossfilter(response.d);
+
+        var genderDimension = data.dimension(function (d) { return d.Gender; });
+        var genderGroup = genderDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        var genders = genderGroup.all();
+        var years = data.dimension(function (d) { return d.YearOfBirth; }).group().all();
+        var YobWithGenderDimension = data.dimension(function (d) {
+            return JSON.stringify({ year: d.YearOfBirth, gender: d.Gender });
+        });
+        var YobWithGendersGroup = YobWithGenderDimension.group().reduceSum(function (d) { return d.HeadCount; })
+        YobWithGendersGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
+        var YobWithGenders = YobWithGendersGroup.all();
+        var gender = [];
+        var genderPlotData = [];
+        for (g in genders) {
+            gender.push(genders[g].key);
+            var temp = [];
+            YobWithGenders.filter(function (d) {
+                var myGender = d.key;
+                if (gender[g] == myGender.gender) { temp.push([myGender.year, d.value]); }
+            });
+            genderPlotData.push(temp);
+        }
+        var yearLabels = [];
+        years.forEach(function (d) { yearLabels.push(d.key); });
+
+        var dvChart1 = new Highcharts.Chart({
+            chart: {
+                type: 'column',
+                renderTo: 'dvChart1',
+                height: 400,
+                zoomType: 'x'
+            }
+            , title: {
+                text: ''
+            }
+            , series: []
+            , xAxis: {
+                title: 'Year of Birth',
+                allowDecimals: false,
+                categories: yearLabels,
+            }
+            , yAxis: {
+                title: {
+                    text: 'Headcount'
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                }
+            }
+            , tooltip: {
+                pointFormat: '{point.y:,.0f} {series.name} employees.'
+            }
+            , plotOptions: {
+                area: {
+                    marker: {
+                        enabled: false,
+                        symbol: 'circle',
+                        radius: 2,
+                        states: {
+                            hover: {
+                                enabled: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        for (g in genders) {
+            dvChart1.addSeries({
+                name: gender[g],
+                data: genderPlotData[g]
+            });
+        }
+        genderDimension.dispose();
+        genderGroup.dispose();
+        YobWithGenderDimension.dispose();
+        
+
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
         }
     }
-    
-
-
-
 });
-
-
-
