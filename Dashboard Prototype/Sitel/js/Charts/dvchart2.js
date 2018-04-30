@@ -37,13 +37,22 @@
                 }
             });
         var years = yobGroup.all();
+
         
+
         var genderLabel = [];
         var genderCount = [];
 
         for (var g in genders) {
             genderLabel.push(genders[g].key);
             genderCount.push(genders[g].value);
+        }
+
+        var yearLabel = [];
+        var yearCount = [];
+        for (var g in years) {
+            yearLabel.push(years[g].key);
+            yearCount.push(years[g].value);
         }
 
 
@@ -65,22 +74,9 @@
                     data: genderCount
                 }]
                 , xAxis: {
-                    title: 'Gender',
+                    title: 'Year of Birth',
                     allowDecimals: false,                    
-                    categories: [
-                        'Jan',
-                        'Feb',
-                        'Mar',
-                        'Apr',
-                        'May',
-                        'Jun',
-                        'Jul',
-                        'Aug',
-                        'Sep',
-                        'Oct',
-                        'Nov',
-                        'Dec'
-                    ],
+                    categories: yearLabel,
                 }
                    
                     
@@ -115,6 +111,8 @@
                 }
             });
         }
+
+        
     }
 
 

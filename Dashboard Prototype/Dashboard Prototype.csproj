@@ -87,6 +87,7 @@
     <Content Include="Sitel\js\highcharts\modules\data.js" />
     <Content Include="Sitel\js\highcharts\modules\drilldown.js" />
     <Content Include="Sitel\js\data.csv" />
+    <Content Include="Sitel\js\ndx.csv" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
