@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <link href="Sitel/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="Sitel/bootstrap/css/yeti_bootstrap.css" rel="stylesheet" />
 
     <!--[if lt IE 9]>
     <script src="https://code.highcharts.com/modules/oldie.js"></script>
@@ -19,12 +19,12 @@
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">About App</button>
         <div class="row">
-            <div id="chart1" class="col-md-6">
-                <div class="box box-solid box-primary">
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Year of Birth vs Gender</h4>
+                        <h4 class="card-title">Year of Birth vs Gender</h4>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
 
                         <p class="box-text">
                         </p>
@@ -33,45 +33,47 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="box box-solid box-primary">
-                    <div class="box-header with-border">                        
-                        <h4 class="box-title">Gender vs Designations</h4>
+            <!--Year of Birth vs Gender-->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="box-header with-border">
+                        <h4 class="card-title">Gender vs Designations</h4>
                     </div>
-                    <div class="box-body">                        
+                    <div class="card-body">
                         <p class="box-text">
                         </p>
-                        <div id="dvChart2" style="height: 400px">
+                        <div id="dvChart2" class="chart-area">
                         </div>
                     </div>
                 </div>
             </div>
+            <!--Gender vs Designations-->
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <div class="box box-solid box-primary">
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Designations vs Departments</h4>
+                        <h4 class="card-title">Designations vs Departments</h4>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
 
                         <p class="box-text">
                         </p>
-                        <div id="dvChart3" style="height: 400px">
+                        <div id="dvChart3" class="chart-area">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="box box-solid box-primary">
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Ages vs Departments</h4>
+                        <h4 class="card-title">Ages vs Departments</h4>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
 
                         <p class="box-text">
                         </p>
-                        <div id="dvChart4" style="height: 400px">
+                        <div id="dvChart4" class="chart-area">
                         </div>
                     </div>
                 </div>
@@ -91,7 +93,7 @@
                         <div class="jumbotron">
                             <h1 class="display-3">Hello,</h1>
                             <p class="lead">Sitel CWFM Umang operates under a non-discriminatory & diversity friendly employment policy.</p>
-                            <hr class="my-4"/>
+                            <hr class="my-4" />
                             <p>Any data seen below is aggregated with due respect to anonymity and non-discrimination in accordance with Sitel Policy.</p>
                             <p>Data seen below is only meant to illustrate a dashboard prototype that is currently under development.</p>
                         </div>
@@ -103,22 +105,20 @@
             </div>
         </div>
 
-
+        <script src="Sitel/js/crossfilter.js"></script>
         <%--<script src="https://code.highcharts.com/highcharts.js"></script>--%>
         <script src="Sitel/js/highcharts/highcharts.js"></script>
-       <%-- <script src="https://code.highcharts.com/modules/sunburst.js"></script>--%>
+
+        <%-- <script src="https://code.highcharts.com/modules/sunburst.js"></script>--%>
         <%--<script src="https://code.highcharts.com/modules/exporting.js"></script>--%>
         <%--<script src="https://code.highcharts.com/modules/drilldown.js"></script>--%>
         <%--<script src="Sitel/js/highcharts/modules/data.js"></script>--%>
-       <%-- <script src="Sitel/js/highcharts/modules/drilldown.js"></script>--%>
-   <%--<script src="https://code.highcharts.com/modules/export-data.js"></script>--%>
+        <%-- <script src="Sitel/js/highcharts/modules/drilldown.js"></script>--%>
+        <%--<script src="https://code.highcharts.com/modules/export-data.js"></script>--%>
         <%--<script src="Sitel/js/Charts/dvchart1.js"></script>--%>
-        <script src="Sitel/js/crossfilter.js"></script>
-        
         <script src="Sitel/js/Charts/dvchart2.js"></script>
-        <script src="Sitel/js/Charts/dvchart3.js"></script>
+        <%--<script src="Sitel/js/Charts/dvchart3.js"></script>--%>
         <%--<script src="Sitel/js/Charts/dvchart4.js"></script>--%>
-
     </form>
     <script>
 
