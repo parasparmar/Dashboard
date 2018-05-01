@@ -19,7 +19,6 @@
     /// Stage 2 : on successfull server response vegin drawing the chart.
     function OnSuccessDrawChart(response) {
         var data = crossfilter(response.d);
-
         var genderDimension = data.dimension(function (d) { return d.Gender; });
         var genderGroup = genderDimension.group().reduceSum(function (d) { return d.HeadCount; });
         var genders = genderGroup.all();
