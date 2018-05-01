@@ -5,7 +5,7 @@
         //type: "GET",
         url: "Default.aspx/GetChartData",
         //url: "Sitel/js/data.csv",
-        data: '{chartNum:1}',
+        data: '{chartNum:0}',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: OnSuccessDrawChart,

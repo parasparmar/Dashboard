@@ -47,7 +47,7 @@
         var DvChart2 = new Highcharts.Chart({
             chart: {
                 type: 'column',
-                renderTo: 'DvChart2',
+                renderTo: 'dvChart2',
                 height: 400,
                 zoomType: 'x'
             }
