@@ -115,10 +115,8 @@
         <%--<script src="Sitel/js/highcharts/modules/data.js"></script>--%>
         <%-- <script src="Sitel/js/highcharts/modules/drilldown.js"></script>--%>
         <%--<script src="https://code.highcharts.com/modules/export-data.js"></script>--%>
-        <%--<script src="Sitel/js/Charts/dvchart1.js"></script>
-        <script src="Sitel/js/Charts/dvchart2.js"></script>
-        <script src="Sitel/js/Charts/dvchart3.js"></script>--%>
-        <script src="Sitel/js/Charts/dvchart4.js"></script>
+                
+        <script src="Sitel/js/Charts/HighChartsBuilder.js"></script>
     </form>
     <script>
 

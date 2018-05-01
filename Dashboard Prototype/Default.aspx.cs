@@ -13,67 +13,13 @@ namespace Dashboard_Prototype
         {
 
         }
-        [WebMethod]
-        public static List<DvChart1> GetDvChart1Data()
-        {
-            string strSQL = GetSQL4DvChart1();
-            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            DataTable dt = new DataTable();
-
-            using (SqlConnection con = new SqlConnection(constr))
-            {
-                using (SqlCommand cmd = new SqlCommand(strSQL))
-                {
-                    cmd.Connection = con;
-                    List<DvChart1> chartData = new List<DvChart1>();
-                    con.Open();
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        dt.Load(sdr);
-
-                        foreach (DataRow drow in dt.Rows)
-                        {
-                            chartData.Add(new DvChart1
-                            {
-                                YearOfBirth = Convert.ToInt32(drow["YearOfBirth"].ToString()),
-                                Male = Convert.ToInt32(drow["Male"].ToString()),
-                                Female = Convert.ToInt32(drow["Female"].ToString()),
-                                Not_Specified = Convert.ToInt32(drow["Not_Specified"].ToString()),
-
-                            });
-                        }
-                    }
-                    con.Close();
-                    return chartData;
-                }
-            }
-        }
 
         [WebMethod]
-        public static List<DataDB> GetChartData(string chartNum="")
+        public static List<DataDB> GetChartData(string chartNum = "")
         {
             string strSQL = string.Empty;
             int chartNumber = Convert.ToInt32(chartNum);
-            switch (chartNumber)
-            {
-                case 1:
-                    strSQL = GetSQL4DvChart1();
-                    break;
-                case 2:
-                    strSQL = GetSQL4DvChart2();
-                    break;
-                case 3:
-                    strSQL = GetSQL4DvChart3();
-                    break;
-                case 4:
-                    strSQL = GetSQL4DvChart4();
-                    break;
-                default:
-                    strSQL = GetOverAllSQL();
-                    break;
-            }
-
-            
+            strSQL = GetOverAllSQL();
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
             DataTable dt = new DataTable();
 
@@ -92,7 +38,7 @@ namespace Dashboard_Prototype
                         {
                             chartData.Add(new DataDB
                             {
-                                YearOfBirth = columns.Contains("Year") ? drow["Year"].ToString() : null,
+                                YearOfBirth = columns.Contains("YearOfBirth") ? drow["YearOfBirth"].ToString() : null,
                                 Gender = columns.Contains("Gender") ? drow["Gender"].ToString() : null,
                                 Department = columns.Contains("Department") ? drow["Department"].ToString() : null,
                                 Role = columns.Contains("Role") ? drow["Role"].ToString() : null,
@@ -143,72 +89,7 @@ namespace Dashboard_Prototype
 
             return strSQL;
         }
-        public static string GetSQL4DvChart1()
-        {
-            string strSQL = @"select
-            isnull(YEAR(B.Date_of_Birth), 0) as Year
-            , Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified') as Gender
-            , Count(*) as Headcount
-            from WFMP.tblMaster A 
-            left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
-            left join WFMP.tblGender O on O.Id = B.Gender
-            left join WFMP.tblDesignation P on P.ID = A.DesignationID
-            group by 
-            isnull(YEAR(B.Date_of_Birth), 0),
-            Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified'), P.Designation
-            Order by 2";
-            return strSQL;
-        }       
-        public static string GetSQL4DvChart2()
-        {
-            string strSQL = @"select 
-					isnull(YEAR(B.Date_of_Birth), 0) as Year,
-					 Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified') as Gender
-					, P.Designation
-					, Count(*) as Headcount
-					from WFMP.tblMaster A 
-					left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
-					left join WFMP.tblGender O on O.Id = B.Gender
-					left join WFMP.tblDesignation P on P.ID = A.DesignationID
-					group by 
-					YEAR(B.Date_of_Birth),
-					Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified')
-					, P.Designation	
-					Order by 1";
-            return strSQL;
-        }
-        public static string GetSQL4DvChart3()
-        {
-            string strSQL = @"select
-            isnull(YEAR(B.Date_of_Birth), 0) as Year
-            , Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified') as Gender
-            , Count(*) as Headcount
-            from WFMP.tblMaster A 
-            left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
-            left join WFMP.tblGender O on O.Id = B.Gender
-            left join WFMP.tblDesignation P on P.ID = A.DesignationID
-            group by 
-            isnull(YEAR(B.Date_of_Birth), 0),
-            Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified'), P.Designation
-            Order by 2";
-            return strSQL;
-        }
-        public static string GetSQL4DvChart4()
-        {
-            string strSQL = @"select
-            isnull(YEAR(B.Date_of_Birth), 0) as Year
-            , Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified') as Gender
-            , Count(*) as Headcount
-            from WFMP.tblMaster A 
-            left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
-            left join WFMP.tblGender O on O.Id = B.Gender
-            left join WFMP.tblDesignation P on P.ID = A.DesignationID
-            group by 
-            isnull(YEAR(B.Date_of_Birth), 0),
-            Replace(isnull(O.Gender, 'Not_Specified'), 'Please Select Gender', 'Not_Specified'), P.Designation
-            Order by 2";
-            return strSQL;
-        }
+
         public static string GetOverAllSQL()
         {
             string strSQL = @"select 
