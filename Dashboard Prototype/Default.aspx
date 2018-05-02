@@ -14,36 +14,25 @@
     <script src="https://code.highcharts.com/modules/oldie.js"></script>
     <![endif]-->
 </head>
-<body>
+<body class="container">
     <form id="form1" runat="server">
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">About App</button>
         <div class="row">
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="box-header with-border">
-                        <h4 class="card-title">Year of Birth vs Gender</h4>
-                    </div>
-                    <div class="card-body">
-
-                        <p class="box-text">
-                        </p>
-                        <div id="dvChart1" style="height: 400px">
-                        </div>
+                <div class="card border-primary mb-3">
+                    <div class="card-header">Year of Birth vs Gender</div>
+                    <h4 class="card-title"></h4>
+                    <div id="dvChart1" class="card-body">
                     </div>
                 </div>
             </div>
             <!--Year of Birth vs Gender-->
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="box-header with-border">
-                        <h4 class="card-title">Gender vs Designations</h4>
-                    </div>
-                    <div class="card-body">
-                        <p class="box-text">
-                        </p>
-                        <div id="dvChart2" class="chart-area">
-                        </div>
+                <div class="card border-warning mb-3">
+                    <div class="card-header">Gender vs Designations</div>
+                    <h4 class="card-title"></h4>
+                    <div id="dvChart2" class="card-body">
                     </div>
                 </div>
             </div>
@@ -51,33 +40,23 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="box-header with-border">
-                        <h4 class="card-title">Designations vs Departments</h4>
-                    </div>
-                    <div class="card-body">
-
-                        <p class="box-text">
-                        </p>
-                        <div id="dvChart3" class="chart-area">
-                        </div>
-                    </div>
+                <div class="card border-danger mb-3">
+                    <div class="card-header">Designations vs Departments</div>
+                    <h4 class="card-title"></h4>
+                    <div  id="dvChart3"  class="card-body">
                 </div>
+                </div>                
             </div>
+            <!--Designations vs Departments-->
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="box-header with-border">
-                        <h4 class="card-title">Ages vs Departments</h4>
-                    </div>
-                    <div class="card-body">
-
-                        <p class="box-text">
-                        </p>
-                        <div id="dvChart4" class="chart-area">
-                        </div>
-                    </div>
+                <div class="card border-success mb-3">
+                    <div class="card-header">Ages vs Departments</div>
+                    <h4 class="card-title"></h4>
+                    <div id="dvChart4" class="card-body">
                 </div>
+                </div>                
             </div>
+            <!--Ages vs Departments-->
         </div>
 
         <div class="modal fade" id="myModal" role="dialog">
@@ -115,7 +94,7 @@
         <%--<script src="Sitel/js/highcharts/modules/data.js"></script>--%>
         <%-- <script src="Sitel/js/highcharts/modules/drilldown.js"></script>--%>
         <%--<script src="https://code.highcharts.com/modules/export-data.js"></script>--%>
-                
+
         <script src="Sitel/js/Charts/HighChartsBuilder.js"></script>
     </form>
     <script>
