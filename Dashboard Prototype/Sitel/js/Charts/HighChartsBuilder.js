@@ -30,24 +30,52 @@
         var RoleWithgenderDimension = data.dimension(function (d) {
             return JSON.stringify({ Role: d.Role, gender: d.Gender });
         });
-        var RoleWithgendersGroup = RoleWithgenderDimension.group().reduceSum(function (d) { return d.HeadCount; })
+        var RoleWithgendersGroup = RoleWithgenderDimension.group().reduceSum(function (d) { return d.HeadCount; });
         RoleWithgendersGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
         var RoleWithgenders = RoleWithgendersGroup.all();
-
+        // Chart 1
         var years = data.dimension(function (d) { return d.YearOfBirth; }).group().all();
         var YobWithGenderDimension = data.dimension(function (d) {
             return JSON.stringify({ year: d.YearOfBirth, gender: d.Gender });
         });
 
-        var YobWithGendersGroup = YobWithGenderDimension.group().reduceSum(function (d) { return d.HeadCount; })
+        // Chart 2
+        var YobWithGendersGroup = YobWithGenderDimension.group().reduceSum(function (d) { return d.HeadCount; });
         YobWithGendersGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
         var YobWithGenders = YobWithGendersGroup.all();
+
+        // Chart 3
+        var DeptDimension = data.dimension(function (d) { return d.Department });
+        var DeptGroup = DeptDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        var Dept = DeptGroup.all();
+
+        var DsgnWDeptDimension = data.dimension(function (d) {
+            return JSON.stringify({ designation: d.Role, department: d.Department });
+        });
+        var DsgnWDeptGroup = DsgnWDeptDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        DsgnWDeptGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
+        var DsgnWDept = DsgnWDeptGroup.all();
+        //DsgnWDept = flattenObject(DsgnWDept);
+        var DsgnWDeptPlotData = JSON.stringify(DsgnWDept);
+        DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/},"value"/g, "\,\"value\"");
+        DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/{"key":/g, '');
+        DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/designation/g, 'name');
+        DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/value/g, 'y');
+        DsgnWDeptPlotData = JSON.parse(DsgnWDeptPlotData);
+
+        for (d in DsgnWDeptPlotData) {
+            var data = { name: DsgnWDeptPlotData[d].name, y: DsgnWDeptPlotData[d].y, drilldown: DsgnWDeptPlotData[d].name };
+            var series = { name: DsgnWDeptPlotData[d].department, data: data };
+            DsgnWDeptPlotData[d] = series;
+        }
+
 
         // Stage: Transform to Highcharts Compatible data structures.
         var gender = [];
         var genderPlotData = [];
         var yobWithGenderPlotData = [];
         var RoleWithGenderPlotData = [];
+        //var DsgnWDeptPlotData = [];
 
         for (g in genders) {
             gender.push(genders[g].key);
@@ -65,15 +93,12 @@
                 if (gender[g] == myRole.gender) { temp2.push([myRole.Role, d.value]); }
             });
             RoleWithGenderPlotData.push(temp2);
-            
         }
 
-        var yearLabels = [];
-        years.forEach(function (d) { yearLabels.push(d.key); });
+        var yearLabels = convertGroup2XAxisCategoryLabels(years);
+        var RoleLabels = convertGroup2XAxisCategoryLabels(Role);
+        var DeptLabels = convertGroup2XAxisCategoryLabels(Dept);
 
-        var RoleLabels = [];
-        Role.forEach(function (d) { RoleLabels.push(d.key); });
-        
         //Chart 1: Year of Birth vs Gender
         var dvChart1 = new Highcharts.Chart({
             chart: {
@@ -119,7 +144,7 @@
                 }
             }
         });
-        //Chart 2: Gender vs Designations
+        //Chart 2: Gender vs Designations Column Type w Multiple Series
         var dvChart2 = new Highcharts.Chart({
             chart: {
                 type: 'column',
@@ -132,7 +157,7 @@
             }
             , series: []
             , xAxis: {
-                title: 'Year of Birth',
+                title: 'Roles',
                 allowDecimals: false,
                 categories: RoleLabels,
             }
@@ -164,7 +189,7 @@
                 }
             }
         });
-        //Chart 3: Designations(Roles) vs Departments
+        //Chart 3: Designations(Roles) vs Departments Stacked Column Type
         var dvChart3 = new Highcharts.Chart({
             chart: {
                 type: 'column',
@@ -176,26 +201,53 @@
                 text: ''
             }
             , series: []
-            , Role: {
-                title: 'Year of Birth',
+            , xAxis: {
+                title: 'Roles',
                 allowDecimals: false,
-                categories: RoleLabels,
+                categories: DeptLabels,
             }
             , yAxis: {
+                min: 0,
                 title: {
                     text: 'Headcount'
                 },
-                labels: {
-                    formatter: function () {
-                        return this.value;
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
                     }
-                }
+                },
+                legend: {
+                    align: 'right',
+                    x: -30,
+                    verticalAlign: 'top',
+                    y: 25,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    headerFormat: '<b>{point.x}</b><br/>',
+                    pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                        }
+                    }
+                },
             }
             , tooltip: {
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} pax</b></td></tr>',
+                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -232,7 +284,7 @@
             }
             , series: []
             , xAxis: {
-                title: 'Year of Birth',
+                title: 'Roles',
                 allowDecimals: false,
                 categories: RoleLabels,
             }
@@ -250,7 +302,7 @@
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} pax</b></td></tr>',
+                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -285,19 +337,54 @@
                 name: gender[g],
                 data: RoleWithGenderPlotData[g]
             });
-            dvChart3.addSeries({
-                name: gender[g],
-                data: genderPlotData[g]
-            });
+
             dvChart4.addSeries({
                 name: gender[g],
-                data: genderPlotData[g]
+                data: RoleWithGenderPlotData[g]
             });
         }
+
+        for (d in DeptLabels) {
+            dvChart3.addSeries(DsgnWDeptPlotData);
+        }
+
+
+
+        //name: Dept[g].key,
+        //data: [{ name: DsgnWDeptPlotData[g].name, y: DsgnWDeptPlotData[g].value, drilldown: DsgnWDeptPlotData[g].drilldown }]
 
         genderDimension.dispose();
         genderGroup.dispose();
         RoleWithgenderDimension.dispose();
         YobWithGenderDimension.dispose();
+
+        function convertGroup2XAxisCategoryLabels(TheCrossfilterGroupArray) {
+            var XAxisCategoryLabelsArray = [];
+            TheCrossfilterGroupArray.forEach(function (d) { XAxisCategoryLabelsArray.push(d.key); });
+            return XAxisCategoryLabelsArray;
+        }
+
+        //let unique = [...new Set(myArray)]; 
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+
+        function flattenObject(ob) {
+            var toReturn = {};
+            for (var i in ob) {
+                if (!ob.hasOwnProperty(i)) continue;
+                if ((typeof ob[i]) == 'object') {
+                    var flatObject = flattenObject(ob[i]);
+                    for (var x in flatObject) {
+                        if (!flatObject.hasOwnProperty(x)) continue;
+                        toReturn[i + '.' + x] = flatObject[x];
+                    }
+                } else {
+                    toReturn[i] = ob[i];
+                }
+            }
+            return toReturn;
+        }
+
     }
 });
