@@ -30,9 +30,11 @@
         var RoleWithgenderDimension = data.dimension(function (d) {
             return JSON.stringify({ Role: d.Role, gender: d.Gender });
         });
+
         var RoleWithgendersGroup = RoleWithgenderDimension.group().reduceSum(function (d) { return d.HeadCount; });
         RoleWithgendersGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
         var RoleWithgenders = RoleWithgendersGroup.all();
+
         // Chart 1
         var years = data.dimension(function (d) { return d.YearOfBirth; }).group().all();
         var YobWithGenderDimension = data.dimension(function (d) {
@@ -62,14 +64,7 @@
         DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/designation/g, 'name');
         DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/value/g, 'y');
         DsgnWDeptPlotData = JSON.parse(DsgnWDeptPlotData);
-
-        for (d in DsgnWDeptPlotData) {
-            var data = { name: DsgnWDeptPlotData[d].name, y: DsgnWDeptPlotData[d].y, drilldown: DsgnWDeptPlotData[d].name };
-            var series = { name: DsgnWDeptPlotData[d].department, data: data };
-            DsgnWDeptPlotData[d] = series;
-        }
-
-
+        
         // Stage: Transform to Highcharts Compatible data structures.
         var gender = [];
         var genderPlotData = [];
@@ -98,6 +93,28 @@
         var yearLabels = convertGroup2XAxisCategoryLabels(years);
         var RoleLabels = convertGroup2XAxisCategoryLabels(Role);
         var DeptLabels = convertGroup2XAxisCategoryLabels(Dept);
+        
+        var SeriesData = [];
+        var data;
+        for (d in DeptLabels) {
+            var index;
+
+            var found = DsgnWDeptPlotData.some(function (entry, i) {
+                if (entry.department === DeptLabels[d]) {
+                    index = i;
+                    data = DsgnWDeptPlotData[index].y;
+                    return true;
+                }
+            });
+            if (found) {
+                var series = { name: DsgnWDeptPlotData[index].department, data: data };
+                DsgnWDeptPlotData[index] = series;
+                SeriesData.push(series);
+            }
+        }
+        var stringDsgnWDeptPlotData = JSON.stringify(DsgnWDeptPlotData);
+        var stringSeriesData = JSON.stringify(SeriesData);
+
 
         //Chart 1: Year of Birth vs Gender
         var dvChart1 = new Highcharts.Chart({
@@ -200,7 +217,7 @@
             , title: {
                 text: ''
             }
-            , series: []
+            , series: DsgnWDeptPlotData
             , xAxis: {
                 title: 'Roles',
                 allowDecimals: false,
@@ -343,16 +360,7 @@
                 data: RoleWithGenderPlotData[g]
             });
         }
-
-        for (d in DeptLabels) {
-            dvChart3.addSeries(DsgnWDeptPlotData);
-        }
-
-
-
-        //name: Dept[g].key,
-        //data: [{ name: DsgnWDeptPlotData[g].name, y: DsgnWDeptPlotData[g].value, drilldown: DsgnWDeptPlotData[g].drilldown }]
-
+        
         genderDimension.dispose();
         genderGroup.dispose();
         RoleWithgenderDimension.dispose();
@@ -364,11 +372,12 @@
             return XAxisCategoryLabelsArray;
         }
 
+        // Not used.
         //let unique = [...new Set(myArray)]; 
         function onlyUnique(value, index, self) {
             return self.indexOf(value) === index;
         }
-
+        // Not used.
         function flattenObject(ob) {
             var toReturn = {};
             for (var i in ob) {
