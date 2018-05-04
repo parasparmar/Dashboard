@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link href="Sitel/bootstrap/css/yeti_bootstrap.css" rel="stylesheet" />
-
+    <script src="Sitel/js/jquery.csv.min.js"></script>
     <!--[if lt IE 9]>
     <script src="https://code.highcharts.com/modules/oldie.js"></script>
     <![endif]-->

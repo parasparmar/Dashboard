@@ -113,7 +113,7 @@ namespace Dashboard_Prototype
                         when C.Designation is Null then 'Not_Specified'
                         end as Role
                         , isnull(D.Level,'Not_Specified') as Level
-                        , Count(*) as HeadCount
+                        , Count(*) as Headcount
                         from WFMP.tblMaster A 
                         left join WFMP.tblProfile B on B.Employee_ID = A.Employee_ID
                         left join WFMP.tblDesignation C on C.ID = A.DesignationID

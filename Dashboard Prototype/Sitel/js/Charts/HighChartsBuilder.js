@@ -1,13 +1,26 @@
 ﻿$(function () {
     /// Stage 1 : get data from the server.
+    //$.ajax({
+    //    type: "POST",
+    //    //type: "GET",
+    //    url: "Default.aspx/GetChartData",
+    //    //url: "Sitel/js/data.csv",
+    //    data: '{chartNum:0}',
+    //    contentType: "application/json; charset=utf-8",
+    //    dataType: "json",
+    //    success: OnSuccessDrawChart,
+    //    failure: function (response) {
+    //        alert("failure : " + response.status);
+    //    },
+    //    error: function (response) {
+    //        alert("error : " + response.status);
+    //    }
+    //});
     $.ajax({
-        type: "POST",
-        //type: "GET",
-        url: "Default.aspx/GetChartData",
-        //url: "Sitel/js/data.csv",
-        data: '{chartNum:0}',
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
+        type: "GET",
+        url: "Sitel/js/data.csv",
+        data: '',
+        dataType: "text",
         success: OnSuccessDrawChart,
         failure: function (response) {
             alert("failure : " + response.status);
@@ -20,9 +33,19 @@
     function OnSuccessDrawChart(response) {
         // Stage: Slice and Dice
         // Gender is the innermost series. In this case it's gender and it's quantitative measurement on Y axis is the Headcount.
-        var data = crossfilter(response.d);
+        var typeofresponse = typeof response;
+        if (typeofresponse === "string") {
+            var result = $.csv.toObjects(response);
+            for (d in result) {               
+                result[d].Headcount = +result[d].Headcount;
+            }
+            var data = crossfilter(result);
+        } else {
+            var data = crossfilter(response.d);
+        }
+
         var genderDimension = data.dimension(function (d) { return d.Gender; });
-        var genderGroup = genderDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        var genderGroup = genderDimension.group().reduceSum(function (d) { return d.Headcount; });
         var genders = genderGroup.all();
 
         // xAxis is whatever data you need populated on the xAxis. It's like a groupBy in SQL. In this case it's role.
@@ -31,7 +54,7 @@
             return JSON.stringify({ Role: d.Role, gender: d.Gender });
         });
 
-        var RoleWithgendersGroup = RoleWithgenderDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        var RoleWithgendersGroup = RoleWithgenderDimension.group().reduceSum(function (d) { return d.Headcount; });
         RoleWithgendersGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
         var RoleWithgenders = RoleWithgendersGroup.all();
 
@@ -42,19 +65,19 @@
         });
 
         // Chart 2
-        var YobWithGendersGroup = YobWithGenderDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        var YobWithGendersGroup = YobWithGenderDimension.group().reduceSum(function (d) { return d.Headcount; });
         YobWithGendersGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
         var YobWithGenders = YobWithGendersGroup.all();
 
         // Chart 3
         var DeptDimension = data.dimension(function (d) { return d.Department });
-        var DeptGroup = DeptDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        var DeptGroup = DeptDimension.group().reduceSum(function (d) { return d.Headcount; });
         var Dept = DeptGroup.all();
 
         var DsgnWDeptDimension = data.dimension(function (d) {
             return JSON.stringify({ designation: d.Role, department: d.Department });
         });
-        var DsgnWDeptGroup = DsgnWDeptDimension.group().reduceSum(function (d) { return d.HeadCount; });
+        var DsgnWDeptGroup = DsgnWDeptDimension.group().reduceSum(function (d) { return d.Headcount; });
         DsgnWDeptGroup.all().forEach(function (d) { d.key = JSON.parse(d.key); });
         var DsgnWDept = DsgnWDeptGroup.all();
         //DsgnWDept = flattenObject(DsgnWDept);
@@ -64,7 +87,7 @@
         DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/designation/g, 'name');
         DsgnWDeptPlotData = DsgnWDeptPlotData.replace(/value/g, 'y');
         DsgnWDeptPlotData = JSON.parse(DsgnWDeptPlotData);
-        
+
         // Stage: Transform to Highcharts Compatible data structures.
         var gender = [];
         var genderPlotData = [];
@@ -93,7 +116,7 @@
         var yearLabels = convertGroup2XAxisCategoryLabels(years);
         var RoleLabels = convertGroup2XAxisCategoryLabels(Role);
         var DeptLabels = convertGroup2XAxisCategoryLabels(Dept);
-        
+
         var SeriesData = [];
         var data;
         for (d in DeptLabels) {
@@ -264,7 +287,7 @@
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -319,7 +342,7 @@
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -360,7 +383,7 @@
                 data: RoleWithGenderPlotData[g]
             });
         }
-        
+
         genderDimension.dispose();
         genderGroup.dispose();
         RoleWithgenderDimension.dispose();
