@@ -80,9 +80,7 @@
     <Content Include="Sitel\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Sitel\css\AdminLTE.min.css" />
     <Content Include="Sitel\js\adminlte.min.js" />
-    <Content Include="Sitel\js\Charts\dvchart2.js" />
-    <Content Include="Sitel\js\Charts\dvchart3.js" />
-    <Content Include="Sitel\js\Charts\dvchart4.js" />
+    <Content Include="Sitel\js\Charts\HighChartsBuilder.js" />
     <Content Include="Sitel\js\highcharts\highcharts.js" />
     <Content Include="Sitel\js\highcharts\modules\data.js" />
     <Content Include="Sitel\js\highcharts\modules\drilldown.js" />
@@ -115,8 +113,6 @@
     <Content Include="Sitel\js\crossfilter.js" />
     <Content Include="Sitel\js\d3.js" />
     <Content Include="Sitel\js\dc.js" />
-    <Content Include="Sitel\js\Charts\dvchart1-backup.js" />
-    <Content Include="Sitel\js\Charts\dvchart1.js" />
     <Content Include="Sitel\js\myCrossFilterImplementation.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -124,7 +120,6 @@
     <Content Include="App_Code\PageExtensionMethods.cs" />
     <Content Include="App_Code\Pivot.cs" />
     <Compile Include="App_Code\DataDB.cs" />
-    <Compile Include="App_Code\DvChart1.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
