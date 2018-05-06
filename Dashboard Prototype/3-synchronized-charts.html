@@ -1,160 +1,164 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<title>3 synchronized charts</title>
-	</head>
-	<body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <title>3 synchronized charts</title>
+</head>
+<body>
     <script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
-<div id="container" style="min-width: 300px; height: 200px; margin: 0 auto"></div>
-<div id="container2" style="min-width: 300px; height: 200px; margin: 0 auto"></div>
-<div id="container3" style="min-width: 300px; height: 200px; margin: 0 auto"></div>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <div id="container" style="min-width: 300px; height: 200px; margin: 0 auto"></div>
+    <div id="container2" style="min-width: 300px; height: 200px; margin: 0 auto"></div>
+    <div id="container3" style="min-width: 300px; height: 200px; margin: 0 auto"></div>
 
-<script>
-var updating = true;
+    <script>
+        var updating = true;
 
-$(function () {
-    $('#container').highcharts({
-        chart: {
-            zoomType: 'x'
-        },
-        title: {
-            text: 'First Chart'
-        },
-      
-        xAxis: {
-            type: 'datetime',
-            events: {
-                afterSetExtremes: function (event) {
-                    var index2 = document.getElementById('container2').dataset.highchartsChart;
-                    var index3 = document.getElementById('container3').dataset.highchartsChart;
-                    var chartPartner2 = Highcharts.charts[index2];
-                     var chartPartner3 = Highcharts.charts[index3];
-                    if (updating) {
-                        //updating = true;
-                        chartPartner2.xAxis[0].setExtremes(event.min, event.max);
-                        //chartPartner2.showResetZoom();
-                        chartPartner3.xAxis[0].setExtremes(event.min, event.max);
-                        //chartPartner3.showResetZoom();
-                    } else {
-                        updating = true;
+        $(function () {
+            $('#container').highcharts({
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'First Chart'
+                },
+
+                xAxis: {
+                    type: 'datetime',
+                    events: {
+                        afterSetExtremes: function (event) {
+                            var index2 = document.getElementById('container2').dataset.highchartsChart;
+                            var index3 = document.getElementById('container3').dataset.highchartsChart;
+                            var chartPartner2 = Highcharts.charts[index2];
+                            var chartPartner3 = Highcharts.charts[index3];
+                            if (updating) {
+                                //updating = true;
+                                chartPartner2.xAxis[0].setExtremes(event.min, event.max);
+                                //chartPartner2.showResetZoom();
+                                chartPartner3.xAxis[0].setExtremes(event.min, event.max);
+                                //chartPartner3.showResetZoom();
+                            } else {
+                                updating = true;
+                            }
+
+                        }
+                    },
+                    minRange: 14 * 24 * 3600000 // fourteen days
+                },
+                yAxis: {
+                    title: {
+                        text: 'Exchange rate'
                     }
-                    
-                }
-            },
-            minRange: 14 * 24 * 3600000 // fourteen days
-        },
-        yAxis: {
-            title: {
-                text: 'Exchange rate'
-            }
-        },
+                },
 
-        series: [{
-            type: 'area',
-            name: 'USD to EUR',
-            pointInterval: 24 * 3600 * 1000,
-            pointStart: Date.UTC(2006, 0, 1),
-            data: [
-            0.8446, 0.8445, 0.8444, 0.8451, 0.8418, 0.8264, 0.8258, 0.8232, 0.8233, 0.8258,
-            0.8283, 0.8278, 1, 0.8292, 0.8239, 0.8239, 0.8245, 0.8265, 0.8261, 0.8269,
-            2.8273, 2.8244, 0.8244, 0.8172, 0.8139, 0.8146, 0.8164, 0.82, 0.8269, 0.8269,
-            0.8269, 0.8258, 0.8247, 0.8286, 0.8289, 0.8316, 0.832, 0.8333, 0.8352, 0.8357,
-            0.8355, 0.8354, 0.1, 0.8403, 0.8406, 0.8403, 0.8396, 0.8418, 0.8409, 0.8384]
-        }]
-    });
+                series: [{
+                    type: 'area',
+                    name: 'USD to EUR',
+                    pointInterval: 24 * 3600 * 1000,
+                    pointStart: Date.UTC(2006, 0, 1),
+                    data: [
+                        0.8446, 0.8445, 0.8444, 0.8451, 0.8418, 0.8264, 0.8258, 0.8232, 0.8233, 0.8258,
+                        0.8283, 0.8278, 1, 0.8292, 0.8239, 0.8239, 0.8245, 0.8265, 0.8261, 0.8269,
+                        2.8273, 2.8244, 0.8244, 0.8172, 0.8139, 0.8146, 0.8164, 0.82, 0.8269, 0.8269,
+                        0.8269, 0.8258, 0.8247, 0.8286, 0.8289, 0.8316, 0.832, 0.8333, 0.8352, 0.8357,
+                        0.8355, 0.8354, 0.1, 0.8403, 0.8406, 0.8403, 0.8396, 0.8418, 0.8409, 0.8384]
+                }]
+            });
 
-    $('#container2').highcharts({
-        chart: {
-            zoomType: 'x'
-        },
-        title: {
-            text: 'Second Chart'
-        },
+            $('#container2').highcharts({
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'Second Chart'
+                },
 
-      
-        xAxis: {
-            type: 'datetime',
-            events: {
-                afterSetExtremes: function (event) {
-                    var index = document.getElementById('container3').dataset.highchartsChart;
-                    var chartPartner = Highcharts.charts[index];
-                    if (updating) {
-                        //updating = true;
-                        chartPartner.xAxis[0].setExtremes(event.min, event.max);
-                       // chartPartner.showResetZoom();
-                    } else {
-                        updating = true;
+
+                xAxis: {
+                    type: 'datetime',
+                    events: {
+                        afterSetExtremes: function (event) {
+                            var index = document.getElementById('container3').dataset.highchartsChart;
+                            var chartPartner = Highcharts.charts[index];
+                            if (updating) {
+                                //updating = true;
+                                chartPartner.xAxis[0].setExtremes(event.min, event.max);
+                                // chartPartner.showResetZoom();
+                            } else {
+                                updating = true;
+                            }
+                        }
+                    },
+                    minRange: 14 * 24 * 3600000 // fourteen days
+                },
+                yAxis: {
+                    title: {
+                        text: 'Exchange rate'
                     }
-                }
-            },
-            minRange: 14 * 24 * 3600000 // fourteen days
-        },
-        yAxis: {
-            title: {
-                text: 'Exchange rate'
-            }
-        },
+                },
 
-        series: [{
-            type: 'line',
-            name: 'USD to EUR',
-            pointInterval: 24 * 3600 * 1000,
-            pointStart: Date.UTC(2006, 0, 1),
-            data: [
-            0.8446, 0.8445, 0.8444, 0.8451, 0.8418, 0.8264, 0.8258, 0.8232, 0.8233, 0.8258,
-            0.8283, 0.8278, 1, 0.8292, 0.8239, 0.8239, 0.8245, 0.8265, 0.8261, 0.8269,
-            2.8273, 2.8244, 0.8244, 0.8172, 0.8139, 0.8146, 0.8164, 0.82, 0.8269, 0.8269,
-            0.8269, 0.8258, 0.8247, 0.8286, 0.8289, 0.8316, 0.832, 0.8333, 0.8352, 0.8357,
-            0.8355, 0.8354, 0.1, 0.8403, 0.8406, 0.8403, 0.8396, 0.8418, 0.8409, 0.8384]
-        }]
-    });
-    ////////////////////////////////////////////////
-    $('#container3').highcharts({
-        chart: {
-            zoomType: 'x'
-        },
-        title: {
-            text: 'Third Chart'
-        },
+                series: [{
+                    type: 'line',
+                    name: 'USD to EUR',
+                    pointInterval: 24 * 3600 * 1000,
+                    pointStart: Date.UTC(2006, 0, 1),
+                    data: [
+                        0.8446, 0.8445, 0.8444, 0.8451, 0.8418, 0.8264, 0.8258, 0.8232, 0.8233, 0.8258,
+                        0.8283, 0.8278, 1, 0.8292, 0.8239, 0.8239, 0.8245, 0.8265, 0.8261, 0.8269,
+                        2.8273, 2.8244, 0.8244, 0.8172, 0.8139, 0.8146, 0.8164, 0.82, 0.8269, 0.8269,
+                        0.8269, 0.8258, 0.8247, 0.8286, 0.8289, 0.8316, 0.832, 0.8333, 0.8352, 0.8357,
+                        0.8355, 0.8354, 0.1, 0.8403, 0.8406, 0.8403, 0.8396, 0.8418, 0.8409, 0.8384]
+                }]
+            });
+            ////////////////////////////////////////////////
+            $('#container3').highcharts({
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'Third Chart'
+                },
 
-      
-        xAxis: {
-            type: 'datetime',
-            //events: {
-              //  afterSetExtremes: function (event) {
-                ////    var index = document.getElementById('container').dataset.highchartsChart;
-                  //  var chartPartner = Highcharts.charts[index];
+
+                xAxis: {
+                    type: 'datetime',
+                    //events: {
+                    //  afterSetExtremes: function (event) {
+                    ////    var index = document.getElementById('container').dataset.highchartsChart;
+                    //  var chartPartner = Highcharts.charts[index];
                     //if (!updating) {
-                      //  updating = true;
-                        //chartPartner.xAxis[0].setExtremes(event.min, event.max);
-                        //chartPartner.showResetZoom();
+                    //  updating = true;
+                    //chartPartner.xAxis[0].setExtremes(event.min, event.max);
+                    //chartPartner.showResetZoom();
                     //} else {
-                      //  updating = false;
+                    //  updating = false;
                     //}
-                //}
-            //},
-            minRange: 14 * 24 * 3600000 // fourteen days
-        },
-        yAxis: {
-            title: {
-                text: 'Exchange rate'
-            }
-        },
+                    //}
+                    //},
+                    minRange: 14 * 24 * 3600000 // fourteen days
+                },
+                yAxis: {
+                    title: {
+                        text: 'Exchange rate'
+                    }
+                },
 
-        series: [{
-            type: 'column',
-            name: 'USD to EUR',
-            pointInterval: 24 * 3600 * 1000,
-            pointStart: Date.UTC(2006, 0, 1),
-            data: [
-            0.2576,0.301,0.0674,0.2832,0.946,0.5432,0.7933,0.5367,0.8797,0.7006,0.4046,0.9027,0.2446,0.6058,0.833,0.8581,0.8499,0.0625,0.3441,0.7307,0.0215,0.4892,0.3401,0.5679,0.5678,0.2631,0.9491,0.1074,0.9645,0.0144,0.5855,0.9407,0.9122,0.837,0.8659,0.5906,0.2125,0.2978,0.4079,0.0549,0.3626,0.2835,0.0687,0.0078,0.4868,0.332,0.1827,0.9392,0.0248,0.5953]
-        }]
-    });
-    ///////////////////////////////////////////////
-});
-</script>
+                series: [{
+                    type: 'column',
+                    name: 'USD to EUR',
+                    pointInterval: 24 * 3600 * 1000,
+                    pointStart: Date.UTC(2006, 0, 1),
+                    data: [
+                        0.2576, 0.301, 0.0674, 0.2832, 0.946, 0.5432, 0.7933, 0.5367, 0.8797, 0.7006, 0.4046, 0.9027, 0.2446
+                        , 0.6058, 0.833, 0.8581, 0.8499, 0.0625, 0.3441, 0.7307, 0.0215, 0.4892, 0.3401, 0.5679, 0.5678, 0.2631
+                        , 0.9491, 0.1074, 0.9645, 0.0144, 0.5855, 0.9407, 0.9122, 0.837, 0.8659, 0.5906, 0.2125, 0.2978, 0.4079
+                        , 0.0549, 0.3626, 0.2835, 0.0687, 0.0078, 0.4868, 0.332, 0.1827, 0.9392, 0.0248, 0.5953
+                    ]
+                }]
+            });
+            ///////////////////////////////////////////////
+        });
+    </script>
 </body>
 </html>
