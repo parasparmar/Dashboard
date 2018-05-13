@@ -1,24 +1,11 @@
 ﻿﻿$(function () {
     /// Stage 1 : get data from the server.
-    $.ajax({
-        type: "POST",
-        url: "Default.aspx/GetChartData",
-        data: '{chartNum:0}',
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: OnSuccessDrawChart,
-        failure: function (response) {
-            alert("failure : " + response.status);
-        },
-        error: function (response) {
-            alert("error : " + response.status);
-        }
-    });
     //$.ajax({
-    //    type: "GET",
-    //    url: "Sitel/js/data.csv",
-    //    data: '',
-    //    dataType: "text",
+    //    type: "POST",
+    //    url: "Default.aspx/GetChartData",
+    //    data: '{chartNum:0}',
+    //    contentType: "application/json; charset=utf-8",
+    //    dataType: "json",
     //    success: OnSuccessDrawChart,
     //    failure: function (response) {
     //        alert("failure : " + response.status);
@@ -27,6 +14,19 @@
     //        alert("error : " + response.status);
     //    }
     //});
+    $.ajax({
+        type: "GET",
+        url: "Sitel/js/data.csv",
+        data: '',
+        dataType: "text",
+        success: OnSuccessDrawChart,
+        failure: function (response) {
+            alert("failure : " + response.status);
+        },
+        error: function (response) {
+            alert("error : " + response.status);
+        }
+    });
     /// Stage 2 : on successfull server response vegin drawing the chart.
     function OnSuccessDrawChart(response) {
         // Stage: Slice and Dice
@@ -66,19 +66,7 @@
         var DeptGroup = DeptDimension.group().reduceSum(function (d) { return d.Headcount; });
         var Depts = DeptGroup.all();
         var DeptLabels = convertGroup2XAxisLabels(Depts);
-        
-        
-        //for (w in DeptLabels) {
-        //    var data = [];
-        //    for (x in DsgnWDept) {
-        //        var Department = JSON.parse(DsgnWDept[x].key).department;
-        //        if (Department === DeptLabels[w]) {
-        //            data.push([JSON.parse(DsgnWDept[x].key).designation, DsgnWDept[x].value]);
-        //            SeriesData[w] = { name: Department, data: data };
-        //        }
-        //    }
-        //}
-        
+
         // Stage: Transform to Highcharts Compatible data structures.        
         function convertGroup2XAxisLabels(TheCrossfilterGroupArray) {
             var XAxisCategoryLabelsArray = [];
@@ -86,16 +74,29 @@
             return XAxisCategoryLabelsArray;
         }
 
-        function convertGroup2highChartsSeries(TheCrossfilterGroupAll) {
+        function convertor(CFGroup, Labels) {
             var SeriesData = [];
             var data = [];
-            for (d in TheCrossfilterGroupAll) {                
-                data.push(TheCrossfilterGroupAll[d].value);
-                SeriesData.push({ name: TheCrossfilterGroupAll[d].key, data: data });
+            
+            for (l in Labels) {
+                var h = findWithAttr(CFGroup, 'key', Labels[l]);
+
+                if (h > -1) {
+                    data[h] = [Labels[h], CFGroup[h].value];
+                }
+                SeriesData[h] = { name: Labels[h],data: data[h] }
             }
             return SeriesData;
         }
 
+        function findWithAttr(array, attr, value) {
+            for (var i = 0; i < array.length; i += 1) {
+                if (array[i][attr] === value) {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
         //Chart 1: Year of Birth
         var dvChart1 = new Highcharts.Chart({
@@ -108,7 +109,7 @@
             , title: {
                 text: ''
             }
-            , series: convertGroup2highChartsSeries(YearOfBirths)
+            , series: convertor(YearOfBirths, YearOfBirthLabels)
             , xAxis: {
                 title: 'Year of Birth',
                 allowDecimals: false,
@@ -153,7 +154,7 @@
             , title: {
                 text: ''
             }
-            , series: convertGroup2highChartsSeries(genders)
+            , series: convertor(genders, genderLabels)
             , xAxis: {
                 title: 'Roles',
                 allowDecimals: false,
@@ -198,7 +199,7 @@
             , title: {
                 text: ''
             }
-            , series: convertGroup2highChartsSeries(Roles)
+            , series: convertor(Roles, RoleLabels)
             , xAxis: {
                 title: 'Roles',
                 allowDecimals: false,
@@ -245,7 +246,7 @@
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -280,7 +281,7 @@
             , title: {
                 text: ''
             }
-            , series: convertGroup2highChartsSeries(Depts)
+            , series: convertor(Depts, DeptLabels)
             , xAxis: {
                 title: 'Roles',
                 allowDecimals: false,
@@ -300,7 +301,7 @@
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true

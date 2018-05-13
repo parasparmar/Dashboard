@@ -88,7 +88,7 @@
         <div class="row">
           <div class="col-lg-8 col-md-7 col-sm-6">
             <h1>Yeti</h1>
-            <p class="lead">A friendly foundation</p>
+            <p class="lead"></p>
           </div>
           <div class="col-lg-4 col-md-5 col-sm-6">            
           </div>
@@ -100,7 +100,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card border-primary mb-3">
-                        <div class="card-header">Year of Birth vs Gender</div>
+                        <div class="card-header">Year of Birth</div>
                         <h4 class="card-title"></h4>
                         <div id="dvChart1" class="card-body">
                         </div>
@@ -109,7 +109,7 @@
                 <!--Year of Birth vs Gender-->
                 <div class="col-lg-6">
                     <div class="card border-warning mb-3">
-                        <div class="card-header">Gender vs Designations</div>
+                        <div class="card-header">Gender</div>
                         <h4 class="card-title"></h4>
                         <div id="dvChart2" class="card-body">
                         </div>
@@ -120,7 +120,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card border-danger mb-3">
-                        <div class="card-header">Designations vs Departments</div>
+                        <div class="card-header">Designations</div>
                         <h4 class="card-title"></h4>
                         <div id="dvChart3" class="card-body">
                         </div>
@@ -129,7 +129,7 @@
                 <!--Designations vs Departments-->
                 <div class="col-lg-6">
                     <div class="card border-success mb-3">
-                        <div class="card-header">Ages vs Departments</div>
+                        <div class="card-header">Departments</div>
                         <h4 class="card-title"></h4>
                         <div id="dvChart4" class="card-body">
                         </div>
