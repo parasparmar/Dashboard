@@ -75,18 +75,19 @@
         }
 
         function convertor(CFGroup, Labels) {
-            var SeriesData = [];
+            var series = [];
             var data = [];
             
             for (l in Labels) {
                 var h = findWithAttr(CFGroup, 'key', Labels[l]);
-
                 if (h > -1) {
                     data[h] = [Labels[h], CFGroup[h].value];
+
                 }
-                SeriesData[h] = { name: Labels[h],data: data[h] }
+                series[l] = { data: data[h] };
             }
-            return SeriesData;
+            
+            return series;
         }
 
         function findWithAttr(array, attr, value) {
