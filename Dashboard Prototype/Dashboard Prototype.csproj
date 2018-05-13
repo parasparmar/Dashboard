@@ -79,8 +79,6 @@
     <Content Include="Sitel\bootstrap\js\bootstrap.js.map" />
     <Content Include="Sitel\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Sitel\css\AdminLTE.min.css" />
-    <Content Include="Sitel\js\adminlte.min.js" />
-    <Content Include="Sitel\js\Charts\dvchart3.js" />
     <Content Include="Sitel\js\Charts\HighChartsBuilder.js" />
     <Content Include="Sitel\js\highcharts\highcharts.js" />
     <Content Include="Sitel\js\highcharts\modules\data.js" />

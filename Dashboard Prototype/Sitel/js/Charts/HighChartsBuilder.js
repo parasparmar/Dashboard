@@ -97,6 +97,7 @@
             return -1;
         }
 
+        // Stage: Chartbuilder.
         //Chart 1: Year of Birth
         var dvChart1 = new Highcharts.Chart({
             chart: {
@@ -113,6 +114,9 @@
                 title: 'Year of Birth',
                 allowDecimals: false,
                 categories: YearOfBirthLabels,
+                events: {
+                    afterSetExtremes: xAxis_afterSetExtremes
+                }
             }
             , yAxis: {
                 title: {
@@ -324,5 +328,22 @@
                 }
             }
         });
+
+        function xAxis_afterSetExtremes(event) {
+            var index2 = dvChart2.dataset.highchartsChart;
+            var index3 = dvChart3.dataset.highchartsChart;
+            var chartPartner2 = Highcharts.charts[index2];
+            var chartPartner3 = Highcharts.charts[index3];
+            if (updating) {
+                //updating = true;
+                chartPartner2.xAxis[0].setExtremes(event.min, event.max);
+                //chartPartner2.showResetZoom();
+                chartPartner3.xAxis[0].setExtremes(event.min, event.max);
+                //chartPartner3.showResetZoom();
+            } else {
+                updating = true;
+            }
+
+        }
     }
 });
