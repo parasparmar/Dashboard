@@ -46,51 +46,49 @@
         var YearOfBirthDimension = cf.dimension(function (d) { return d.YearOfBirth; });
         var YearOfBirthGroup = YearOfBirthDimension.group().reduceSum(function (d) { return d.Headcount; });
         var YearOfBirths = YearOfBirthGroup.all();
-        var YearOfBirthLabels = convertGroup2XAxisLabels(YearOfBirths);
+        var YearOfBirthLabels = getXAxisLabels(YearOfBirths);
+        var YearOfBirthSeries = getSeriesData(YearOfBirths, YearOfBirthLabels);
 
         // Chart 2 : Gender & Headcount Dimensions and Groups
         var genderDimension = cf.dimension(function (d) { return d.Gender; });
         var genderGroup = genderDimension.group().reduceSum(function (d) { return d.Headcount; });
         var genders = genderGroup.all();
-        var genderLabels = convertGroup2XAxisLabels(genders);
+        var genderLabels = getXAxisLabels(genders);
+        var genderSeries = getSeriesData(genders, genderLabels);
 
         // Chart 3 : Designation/Role & Headcount Dimensions and Groups
         // xAxis is whatever data you need populated on the xAxis. It's like a groupBy in SQL. In this case it's role.
         var RoleDimension = cf.dimension(function (d) { return d.Role; });
         var RoleGroup = RoleDimension.group().reduceSum(function (d) { return d.Headcount; });
         var Roles = RoleGroup.all();
-        var RoleLabels = convertGroup2XAxisLabels(Roles);
+        var RoleLabels = getXAxisLabels(Roles);
+        var RoleSeries = getSeriesData(Roles, RoleLabels);
 
         // Chart 4 : Department & Headcount Dimensions and Groups
         var DeptDimension = cf.dimension(function (d) { return d.Department });
         var DeptGroup = DeptDimension.group().reduceSum(function (d) { return d.Headcount; });
         var Depts = DeptGroup.all();
-        var DeptLabels = convertGroup2XAxisLabels(Depts);
+        var DeptLabels = getXAxisLabels(Depts);
+        var DeptSeries = getSeriesData(Depts, DeptLabels);
 
         // Stage: Transform to Highcharts Compatible data structures.        
-        function convertGroup2XAxisLabels(TheCrossfilterGroupArray) {
+        function getXAxisLabels(TheCrossfilterGroupArray) {
             var XAxisCategoryLabelsArray = [];
             TheCrossfilterGroupArray.forEach(function (d) { XAxisCategoryLabelsArray.push(d.key); });
             return XAxisCategoryLabelsArray;
         }
-
-        function convertor(CFGroup, Labels) {
-            var series = [];
-            var data = [];
-            
+        function getSeriesData(CFGroup, Labels) {
+            var data = [];           
             for (l in Labels) {
-                var h = findWithAttr(CFGroup, 'key', Labels[l]);
+                var h = findLabel(CFGroup, 'key', Labels[l]);
                 if (h > -1) {
-                    data[h] = [Labels[h], CFGroup[h].value];
-
+                    
+                    data[h] = [Labels[l], CFGroup[h].value];
                 }
-                series[l] = { data: data[h] };
             }
-            
-            return series;
+            return [{ data:data }];
         }
-
-        function findWithAttr(array, attr, value) {
+        function findLabel(array, attr, value) {
             for (var i = 0; i < array.length; i += 1) {
                 if (array[i][attr] === value) {
                     return i;
@@ -110,7 +108,7 @@
             , title: {
                 text: ''
             }
-            , series: convertor(YearOfBirths, YearOfBirthLabels)
+            , series: YearOfBirthSeries
             , xAxis: {
                 title: 'Year of Birth',
                 allowDecimals: false,
@@ -127,7 +125,7 @@
                 }
             }
             , tooltip: {
-                pointFormat: '{point.y:,.0f} {series.name} employees.'
+                pointFormat: 'At Year {series.name}, {point.y:,.0f} pax.'
             }
             , plotOptions: {
                 area: {
@@ -155,7 +153,7 @@
             , title: {
                 text: ''
             }
-            , series: convertor(genders, genderLabels)
+            , series: genderSeries
             , xAxis: {
                 title: 'Roles',
                 allowDecimals: false,
@@ -172,7 +170,7 @@
                 }
             }
             , tooltip: {
-                pointFormat: '{point.y:,.0f} {series.name} employees.'
+                pointFormat: 'Of {series.name} Gender, {point.y:,.0f} pax.'
             }
             , plotOptions: {
                 area: {
@@ -200,7 +198,7 @@
             , title: {
                 text: ''
             }
-            , series: convertor(Roles, RoleLabels)
+            , series: RoleSeries
             , xAxis: {
                 title: 'Roles',
                 allowDecimals: false,
@@ -282,7 +280,7 @@
             , title: {
                 text: ''
             }
-            , series: convertor(Depts, DeptLabels)
+            , series: DeptSeries
             , xAxis: {
                 title: 'Roles',
                 allowDecimals: false,
