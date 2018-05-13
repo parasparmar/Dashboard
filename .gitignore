@@ -263,3 +263,4 @@ __pycache__/
 #Paras Mandated Ignored files
 Web.config
 Web.*.config
+/Dashboard Prototype/.vscode/launch.json
