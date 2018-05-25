@@ -1,24 +1,11 @@
-﻿﻿$(function () {
+﻿﻿﻿$(function () {
     /// Stage 1 : get data from the server.
-    //$.ajax({
-    //    type: "POST",
-    //    url: "Default.aspx/GetChartData",
-    //    data: '{chartNum:0}',
-    //    contentType: "application/json; charset=utf-8",
-    //    dataType: "json",
-    //    success: OnSuccessDrawChart,
-    //    failure: function (response) {
-    //        alert("failure : " + response.status);
-    //    },
-    //    error: function (response) {
-    //        alert("error : " + response.status);
-    //    }
-    //});
     $.ajax({
-        type: "GET",
-        url: "Sitel/js/data.csv",
-        data: '',
-        dataType: "text",
+        type: "POST",
+        url: "Default.aspx/GetChartData",
+        data: '{chartNum:0}',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: OnSuccessDrawChart,
         failure: function (response) {
             alert("failure : " + response.status);
@@ -27,7 +14,20 @@
             alert("error : " + response.status);
         }
     });
-    /// Stage 2 : on successfull server response vegin drawing the chart.
+    //$.ajax({
+    //    type: "GET",
+    //    url: "Sitel/js/data.csv",
+    //    data: '',
+    //    dataType: "text",
+    //    success: OnSuccessDrawChart,
+    //    failure: function (response) {
+    //        alert("failure : " + response.status);
+    //    },
+    //    error: function (response) {
+    //        alert("error : " + response.status);
+    //    }
+    //});
+    /// Stage 2 : on successfull server response begin drawing the chart.
     function OnSuccessDrawChart(response) {
         // Stage: Slice and Dice
         // Gender is the innermost series. In this case it's gender and it's quantitative measurement on Y axis is the Headcount.
@@ -78,15 +78,15 @@
             return XAxisCategoryLabelsArray;
         }
         function getSeriesData(CFGroup, Labels) {
-            var data = [];           
+            var data = [];
             for (l in Labels) {
                 var h = findLabel(CFGroup, 'key', Labels[l]);
                 if (h > -1) {
-                    
+
                     data[h] = [Labels[l], CFGroup[h].value];
                 }
             }
-            return [{ data:data }];
+            return [{ data: data }];
         }
         function findLabel(array, attr, value) {
             for (var i = 0; i < array.length; i += 1) {
@@ -249,7 +249,7 @@
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
+                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -304,7 +304,7 @@
 
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
+                '<td style="padding:0"><b>{point.y} pax</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -328,18 +328,21 @@
                 }
             }
         });
+        var updating = true;
 
         function xAxis_afterSetExtremes(event) {
-            var index2 = dvChart2.dataset.highchartsChart;
-            var index3 = dvChart3.dataset.highchartsChart;
-            var chartPartner2 = Highcharts.charts[index2];
-            var chartPartner3 = Highcharts.charts[index3];
+            //var index0 = document.getElementById('dvChart1').dataset.highchartsChart;
+            //var index1 = document.getElementById('dvChart2').dataset.highchartsChart;
+            //var index2 = document.getElementById('dvChart3').dataset.highchartsChart;
+            //var index3 = document.getElementById('dvChart4').dataset.highchartsChart;
+            //var chartPartner1 = Highcharts.charts[index0];
+            //var chartPartner2 = Highcharts.charts[index1];
             if (updating) {
                 //updating = true;
-                chartPartner2.xAxis[0].setExtremes(event.min, event.max);
+                dvChart1.xAxis[0].setExtremes(event.min, event.max);
+                //chartPartner1.showResetZoom();
+                dvChart2.xAxis[0].setExtremes(event.min, event.max);
                 //chartPartner2.showResetZoom();
-                chartPartner3.xAxis[0].setExtremes(event.min, event.max);
-                //chartPartner3.showResetZoom();
             } else {
                 updating = true;
             }
